@@ -90,7 +90,6 @@ submit50==2.4.9
 termcolor==1.1.0
 terminado==0.8.2
 testpath==0.4.2
-thesaurus==0.2.3
 tornado==6.0.3
 traitlets==4.3.2
 twython==3.7.0
