@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    All Channels
+{% endblock %}
+
+{% block LoggedIn %}
+    <input class="form-control mb-3 mx-auto" style="width: 50%;" id="channelSearch" type="text" placeholder="Search for channel...">
+    <div class="row" id="channelList">
+        {% for row in rows %}
+            <div class="col-sm-3 my-2 text-center">
+                <div class="card bg-muted">
+                    <div class="card-header"><strong>{{ row.topic }}</strong></div>
+                    <img class="card-img-top img-fluid mx-auto" src="/static/kittylogo.jpg" style="width: 50%;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ row.name }}</h4>
+                        <p class="card-text">{{ row.description }}</p>
+                    </div>
+                    <div class="card-footer"><small>Created on {{ row.datetime }}</small></div>
+                    <a href="/channel/{{ row.name }}" class="stretched-link"></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block LoggedIn %}
+<div class="container-fluid">
+    <!--Carousel-->
+    <div id="recommendedChannel" class="carousel slide" data-ride="carousel" data-interval="9000">
+        <div class="carousel-inner row w-100 mx-auto" role="listbox">
+            {% for row in rows %}
+                <div class="carousel-item col-md-4 text-center" id="singleRecommendedChannel">
+                    <div class="card">
+                        <div class="card-header">{{ row.topic }}</div>
+                        <img class="card-img-top img-fluid mx-auto" src="/static/kittylogo.jpg" style="width: 50%;">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ row.name }}</h4>
+                            <p class="card-text">{{ row.description }}</p>
+                        </div>
+                        <div class="card-footer">created on {{ row.datetime }}</div>
+                        <a href="/channel/{{ row.name }}" class="stretched-link"></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!--Button to control carousel manually-->
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mt-4">
+                    <a class="btn btn-outline-secondary mx-1 prev" href="javascript:void(0)" title="Previous">
+                        <i class="fa fa-lg fa-chevron-left"></i>
+                    </a>
+                    <a class="btn btn-outline-secondary mx-1 next" href="javascript:void(0)" title="Next">
+                        <i class="fa fa-lg fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

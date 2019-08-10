@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create Channel
+{% endblock %}
+
+{% block LoggedIn %}
+    <!--This block is to notify the user that channel is not available. Choose another name-->
+    <div class="alert alert-danger mx-auto text-center" id="NotAvailable" style="width: 700px;">{{ message }}</div>
+
+    <form action="/create" method="POST" class="mx-auto text-center" style="width: 700px;">
+        <div class="form-group">
+            <label for="channelName">Channel Name:</label>
+            <input type="text" class="form-control" name="channelName" id="channelName">
+        </div>
+        <div class="form-group">
+            <label for="channelTopic">Topic:</label>
+            <input type="text" class="form-control" name="channelTopic" id="channelTopic">
+        </div>
+        <div class="form-group">
+            <label for="desc">Description:</label>
+            <textarea class="form-control" rows="5" name="channelDesc" id="desc"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Create Channel</button>
+    </form>
+{% endblock %}
