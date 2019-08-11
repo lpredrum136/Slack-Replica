@@ -200,6 +200,7 @@ clients = {}
 # var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);)
 # More info https://flask-socketio.readthedocs.io/en/latest/
 @socketio.on('connect') # connect is a reserved keyword of Flask-SocketIO
+@login_required
 def addClient():
     # Get the current username to use as key
     # Value is the session_id of the connection to Socket. So each user has a unique session_id
