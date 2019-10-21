@@ -18,7 +18,7 @@ MarkupSafe==1.1.1
 marshmallow==2.20.0
 marshmallow-sqlalchemy==0.17.0
 monotonic==1.5
-nltk==3.4
+nltk==3.4.5
 psycopg2==2.8.2
 pycparser==2.19
 python-engineio==3.9.3
