@@ -6,8 +6,9 @@ from sqlalchemy.sql import func
 app = Flask(__name__)
 
 # For localhost only
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:legolas136@localhost/postgres"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://slrdxhcahegldy:d08aa992a6d5d714b50c66dece9cca10c9d4b61d01ac705fbb9d205fe857bac7@ec2-50-19-222-129.compute-1.amazonaws.com:5432/dam82ofh6k9khf"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:legolas136@localhost/postgres"
+# To push to heroku
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://slrdxhcahegldy:d08aa992a6d5d714b50c66dece9cca10c9d4b61d01ac705fbb9d205fe857bac7@ec2-50-19-222-129.compute-1.amazonaws.com:5432/dam82ofh6k9khf"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -44,6 +45,14 @@ class Message(db.Model):
     datetime = db.Column(db.DateTime(timezone=True), server_default=func.now())
     channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"), nullable=False)
     chatter_id = db.Column(db.Integer, db.ForeignKey("chatters.id"), nullable=False)
+    
+class PM(db.Model):
+    __tablename__ = "pms"
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String, nullable=False)
+    datetime = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    sender = db.Column(db.Integer, db.ForeignKey("chatters.id"), nullable=False)
+    receiver = db.Column(db.Integer, db.ForeignKey("chatters.id"), nullable=False)
 
 """This following class is for the typeahead only
 Because SQLAlchemy object returned from the query can not be jsonified for typeahead. We need help from

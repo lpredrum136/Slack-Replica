@@ -16,6 +16,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required
 from flask_socketio import SocketIO, emit, join_room
 from sqlalchemy.sql import func
+from sqlalchemy import and_, or_
 from flask_sqlalchemy import get_debug_queries
 
 # Import table definitions
@@ -47,8 +48,9 @@ Session(app)
 
 # Set up database (new way)
 # Commented out to try deploying app
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:legolas136@localhost/postgres"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://slrdxhcahegldy:d08aa992a6d5d714b50c66dece9cca10c9d4b61d01ac705fbb9d205fe857bac7@ec2-50-19-222-129.compute-1.amazonaws.com:5432/dam82ofh6k9khf"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:legolas136@localhost/postgres"
+# To use on Heroku
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://slrdxhcahegldy:d08aa992a6d5d714b50c66dece9cca10c9d4b61d01ac705fbb9d205fe857bac7@ec2-50-19-222-129.compute-1.amazonaws.com:5432/dam82ofh6k9khf"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Link the Flask app with the database
@@ -278,10 +280,16 @@ def channels():
     return render_template("channels.html", username=session['username'], rows=rows)
 
 """===PM==="""
-@app.route("/private")
+@app.route("/private/<string:chatter_id>")
 @login_required
-def privateMessage():
-    return "pm"
+def privateMessage(chatter_id):
+    # Sender and receiver
+    sender = session['username']
+    receiver = Chatter.query.get(chatter_id).username
+
+    # Query messages between these two
+    rows = PM.query.filter(or_(and_(PM.sender == session['user_id'], PM.receiver == chatter_id), and_(PM.sender == chatter_id, PM.receiver == session['user_id']))).all()
+    return render_template("pm.html", receiver=receiver, channel_name=f"sending to {receiver}", username=sender, rows=rows)
 
 """DEBUG SQL-ALCHEMY QUERIES"""
 """https://www.youtube.com/watch?v=5puPZ3n06EE AND https://gist.github.com/dhrrgn/6022858"""

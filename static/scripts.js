@@ -121,7 +121,12 @@ $(document).ready(function() {
 
         $('.msg_send_btn').on('click', function() {// Click on send chat message
             var msg = $('.write_msg').val();// Get the message
-            socket.emit('send msg', {'msg': msg, 'room': room});// Trigger the 'send msg' route in Server with data as follows
+            if (room.includes('sending')) {// meaning user is in PM with someone
+                socket.emit('send pm', {'msg': msg, 'room': })
+            }
+            else {
+                socket.emit('send msg', {'msg': msg, 'room': room});// Trigger the 'send msg' route in Server with data as follows
+            }
             $('.write_msg').val(''); // Delete the field
             $(".msg_history").stop().animate({ scrollTop: $(".msg_history")[0].scrollHeight}, 1000); // Auto scroll to end of chat box
         });

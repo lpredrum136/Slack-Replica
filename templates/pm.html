@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Channel "{{ name }}"
+    Private messaging with {{ receiver }}
 {% endblock %}
 
 {% block LoggedIn %}
@@ -9,7 +9,7 @@
             <div class="mesgs">
                 <div class="msg_history">
                     {% for row in rows %}
-                        {% if row.chatter_id == session.user_id %}
+                        {% if row.sender == session.user_id %}
                             <div class="outgoing_msg" id="saved_msg">
                                 <div class="sent_msg">
                                     <div class="dropdown dropleft">
@@ -24,15 +24,9 @@
                             </div>
                         {% else %}
                             <div class="incoming_msg" id="saved_msg">
-                                <div class="incoming_msg_img"><img src="/static/kittylogo.jpg" class="rounded-circle"><p class="text-center">{{ row.chatter.username }}</p></div>
+                                <div class="incoming_msg_img"><img src="/static/kittylogo.jpg" class="rounded-circle"><p class="text-center">{{ receiver }}</p></div>
                                 <div class="received_msg">
                                     <div class="received_withd_msg">
-                                        <div class="dropup">
-                                            <i class="fas fa-ellipsis-h dropdown-toggle" data-toggle="dropdown"></i>
-                                            <div class="dropdown-menu">
-                                                <a href="/private/{{ row.chatter_id }}" class="dropdown-item" data-deleteid="{{ row.id }}">Send PM</a><!--Because you don't allow deleting other people's msgs, That's why change it to send PM, to take advantage of the popup-->
-                                            </div>
-                                        </div>
                                         <p>{{ row.message }}</p>
                                         <span class="time_date">{{ row.datetime }}</span>
                                     </div>
